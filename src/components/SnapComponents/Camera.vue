@@ -9,6 +9,7 @@
             <h2>Snap!</h2>
         </div>
         <Loading v-show="loadHidden === ''" />
+        <p :v-model="text"></p>
     </div>
 </template>
 
@@ -27,6 +28,7 @@ export default {
             videoHidden:"",
             loadHidden:"hidden",
             canvasHidden:"hidden",
+            text:""
         }
     },
     mounted(){
@@ -71,6 +73,7 @@ export default {
             )
             .then((res)=>{
                 console.log(res.data);
+                this.fullText(res);
                 this.loadHidden = "hidden";
             })
             .catch((error)=>{
@@ -95,6 +98,13 @@ export default {
             }
             return new Blob([uInt8Array], {type: contentType})
         },
+        fullText(res){
+            for(let i = 0; i <= res.data.regions[0].lines.length -1; i++){
+                for(let j = 0; j <= res.data.regions[0].lines[i].words.length - 1 ; j++){
+                    this.text = this.text + res.data.regions[0].lines[i].words[j].text ;
+                }
+            }
+        }
         
     }
 }
