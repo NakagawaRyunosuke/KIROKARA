@@ -14,6 +14,7 @@
 
 <script>
 import Loading from "./Loading.vue";
+import axios from "axios";
 export default {
     components:{
         Loading
@@ -50,8 +51,48 @@ export default {
             this.video.srcObject = null;
             this.videoHidden = "hidden";
             this.canvasHidde = "";
-            console.log(this.captures)
             this.loadHidden = "";
+            this.runOcr();
+        },
+        runOcr(){
+            const ENDPOINT = process.env.VUE_APP_ENDPOINT;
+            const APIKEY = process.env.VUE_APP_APIKEY;
+            const imageUrl = this.makeblob(this.captures[this.captures.length - 1]);
+            axios.post(
+                ENDPOINT,
+                imageUrl,
+                {
+                    headers: {
+                        'Content-type': 'application/octet-stream',
+                        'Ocp-Apim-Subscription-Key': APIKEY
+                    }
+                },
+            )
+            .then((res)=>{
+                console.log(res.data);
+                this.loadHidden = "hidden";
+            })
+            .catch((error)=>{
+                console.log(error);
+            })
+        },
+        makeblob(dataURL){
+            let BASE64_MARKER = ';base64,';
+            if (dataURL.indexOf(BASE64_MARKER) == -1) {
+                let parts = dataURL.split(',');
+                let contentType = parts[0].split(':')[1];
+                let raw = decodeURIComponent(parts[1]);
+                return new Blob([raw], {type: contentType});
+            }
+            let parts = dataURL.split(BASE64_MARKER);
+            let contentType = parts[0].split(':')[1];
+            let raw = window.atob(parts[1]);
+            let rawLength = raw.length;
+            let uInt8Array = new Uint8Array(rawLength);
+            for (let i = 0; i < rawLength; ++i) {
+                uInt8Array[i] = raw.charCodeAt(i);
+            }
+            return new Blob([uInt8Array], {type: contentType})
         },
         
     }
