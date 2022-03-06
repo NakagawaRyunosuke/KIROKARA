@@ -9,13 +9,12 @@
             <h2>Snap!</h2>
         </div>
         <Loading v-show="loadHidden === ''" />
-        <p :v-model="text">{{ text }}</p>
+        <img :src="imageUrl">
     </div>
 </template>
 
 <script>
 import Loading from "./Loading.vue";
-import axios from "axios";
 export default {
     components:{
         Loading
@@ -28,7 +27,7 @@ export default {
             videoHidden:"",
             loadHidden:"hidden",
             canvasHidden:"hidden",
-            text:""
+            imageUrl:""
         }
     },
     mounted(){
@@ -45,7 +44,6 @@ export default {
             this.canvas = this.$refs.canvas;
             this.canvas.getContext('2d').drawImage(this.video, 0,0,200,270);
             this.captures.push(this.canvas.toDataURL("image/png"));
-
             const tracks = this.video.srcObject.getTracks();
             tracks.forEach(track => {
                 track.stop();
@@ -54,31 +52,9 @@ export default {
             this.videoHidden = "hidden";
             this.canvasHidde = "";
             this.loadHidden = "";
-            this.runOcr();
-        },
-        runOcr(){
-            const ENDPOINT = process.env.VUE_APP_ENDPOINT;
-            const APIKEY = process.env.VUE_APP_APIKEY;
-            const imageUrl = this.makeblob(this.captures[this.captures.length - 1]);
-            console.log(ENDPOINT+" "+APIKEY+" "+imageUrl+" ");
-            axios.post(
-                ENDPOINT,
-                imageUrl,
-                {
-                    headers: {
-                        'Content-type': 'application/octet-stream',
-                        'Ocp-Apim-Subscription-Key': APIKEY
-                    }
-                },
-            )
-            .then((res)=>{
-                console.log(res.data);
-                this.fullText(res);
-                this.loadHidden = "hidden";
-            })
-            .catch((error)=>{
-                console.log(error);
-            })
+            this.canvas = "hidden";
+            this.imgURL = this.makeblob(this.captures[this.captures.length - 1]);
+            this.loadHidden = "hidden";
         },
         makeblob(dataURL){
             let BASE64_MARKER = ';base64,';
@@ -98,13 +74,6 @@ export default {
             }
             return new Blob([uInt8Array], {type: contentType})
         },
-        fullText(res){
-            for(let i = 0; i <= res.data.regions[0].lines.length -1; i++){
-                for(let j = 0; j <= res.data.regions[0].lines[i].words.length - 1 ; j++){
-                    this.text = this.text + res.data.regions[0].lines[i].words[j].text ;
-                }
-            }
-        }
         
     }
 }
