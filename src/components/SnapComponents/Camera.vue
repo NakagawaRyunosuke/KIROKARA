@@ -9,7 +9,7 @@
             <h2>Snap!</h2>
         </div>
         <Loading v-show="loadHidden === ''" />
-        <p :v-model="text"></p>
+        <p :v-model="text">{{ text }}</p>
     </div>
 </template>
 
