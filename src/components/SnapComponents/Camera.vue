@@ -58,7 +58,7 @@ export default {
             const ENDPOINT = process.env.VUE_APP_ENDPOINT;
             const APIKEY = process.env.VUE_APP_APIKEY;
             const imageUrl = this.makeblob(this.captures[this.captures.length - 1]);
-            console.log(ENDPOINT+" "+APIKEY+" "+imageUrl);
+            console.log(ENDPOINT+" "+APIKEY+" "+imageUrl+" ");
             axios.post(
                 ENDPOINT,
                 imageUrl,
