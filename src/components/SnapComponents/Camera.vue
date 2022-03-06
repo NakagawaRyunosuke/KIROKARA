@@ -25,7 +25,7 @@ export default {
             captures:[],
             videoHidden:"",
             loadHidden:"hidden",
-            canvasHidde:"hidden",
+            canvasHidden:"hidden",
         }
     },
     mounted(){
@@ -50,6 +50,8 @@ export default {
             this.video.srcObject = null;
             this.videoHidden = "hidden";
             this.canvasHidde = "";
+            console.log(this.captures)
+            this.loadHidden = "";
         },
         
     }
