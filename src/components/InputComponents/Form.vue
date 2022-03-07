@@ -3,7 +3,7 @@
         <h3>[カロリーを記録]</h3>
         <v-form>
             <v-select
-                :items="items"
+                :items="times"
                 label="食べた時間帯を選択"
                 v-model="time"
             ></v-select>
@@ -34,17 +34,28 @@
 </template>
 
 <script>
+import { initializeApp } from "firebase/app"
+import { getFirestore } from "firebase/firestore"
+import { collection,setDoc, getDocs, doc } from "firebase/firestore";
+initializeApp({
+  apikey:process.env.VUE_APP_APIKEY,
+  authDomain:process.env.VUE_APP_AUTHDOMAIN,
+  projectId:process.env.VUE_APP_PROJECT_ID,
+});
+
+const db = getFirestore();
+
 export default {
     data(){
         return{
-            items:["朝ごはん","昼ごはん","おやつ","夜ごはん","夜食","その他"],
+            times:["朝ごはん","昼ごはん","おやつ","夜ごはん","夜食","その他"],
             loading:false,
             time:"",
             name:"",
             cal:"",
+            year:"",
+            month:"",
             pushData:{
-                year:"",
-                month:"",
                 day:"",
                 time:"",
                 name:"",
@@ -57,38 +68,43 @@ export default {
         }
     },
     methods:{
-        pushDb(){
+        async pushDb(){
+            const d = new Date();
+            this.year = String(d.getFullYear());
+            this.month = String(d.getMonth()+1)+String(Date.now());
+            const dataRef = doc(db, this.year, this.month) ;
+
+            this.pushData.day = String(d.getDate());
             this.loading = true;
-            let d = new Date();
-            let year = d.getFullYear();
-            let month = d.getMonth()+1;
-            let day = d.getDate();
-            this.pushData.year = year;
-            this.pushData.month = month;
-            this.pushData.day = day;
             this.pushData.time = this.time;
             this.pushData.name = this.name;
             this.pushData.cal = this.cal;
-            
-            setTimeout(()=>{
-                console.log(this.pushData)
+            try {
+                await setDoc(dataRef, this.pushData);
                 this.$emit("resultHiddenEvent","on");
                 this.loading = false;
                 this.time = "";
                 this.name = "";
                 this.cal = "";
-            },3000);
-            setTimeout(()=>{
-                this.$emit("resultHiddenEvent","off");
-            },5000);
-            
-            
+                setTimeout(()=>{
+                    this.$emit("resultHiddenEvent","off");
+                },3000);
+                this.getData();
+            } catch (e) {
+                console.error("Error adding document: ", e);
+            }
+        },
+        async getData(){
+            const querySnapshot = await getDocs(collection(db, this.year));
 
+            querySnapshot.forEach((doc) => {
+            console.log(doc.id, " => ", doc.data());
+            });
         }
     },
     computed:{
         CheckText(){
-            if(this.time.length > 0 && this.name.length > 0 && this.cal.length > 0){
+            if(this.time.length > 0 && this.name.length > 0 && this.cal.length > 0 && !isNaN(Number(this.cal)) && this.name.length <= 20){
                 return false;
             }else{
                 return true;
