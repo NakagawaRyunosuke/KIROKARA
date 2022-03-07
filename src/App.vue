@@ -58,8 +58,8 @@ export default {
     drawer:null,
     items:[
       {icon:"mdi-home",title:"HOME",to:"/"},
-      {icon:"mdi-camera",title:"撮影",to:"/snap"},
-      {icon:"mdi-book-outline",title:"記録",to:"/memo"},
+      {icon:"mdi-lead-pencil",title:"カロリーを記録",to:"/input"},
+      {icon:"mdi-book-outline",title:"今までのカロリー",to:"/memo"},
       {icon:"mdi-chart-line",title:"今月の推移",to:"/chart"}
     ],
   }),

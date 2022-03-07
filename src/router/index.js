@@ -11,12 +11,12 @@ const routes = [
     component: Home
   },
   {
-    path: '/snap',
-    name: 'Snap',
+    path: '/input',
+    name: 'Input',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "snap" */ '../views/Snap.vue')
+    component: () => import(/* webpackChunkName: "input" */ '../views/Input.vue')
   },
   {
     path: '/memo',

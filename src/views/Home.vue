@@ -7,10 +7,10 @@
         </div>
 
         <div class="intro">
-            <h4>こんな機能を持っています(PC非対応)</h4>
+            <h4>こんな機能を持っています</h4>
             <p>↓  ↓  ↓</p>
             <ul>
-                <li><v-icon>mdi-camera</v-icon>カロリーの表示を撮るだけで記録</li>
+                <li><v-icon>mdi-lead-pencil</v-icon>三項目入力するだけでカロリーを記録</li>
                 <li><v-icon>mdi-book-outline</v-icon>記録したカロリーの一覧表示</li>
                 <li><v-icon>mdi-chart-line</v-icon>一か月間のカロリーの推移をグラフで確認</li>
             </ul>
@@ -26,7 +26,7 @@
 export default {
     methods:{
         start(){
-            this.$router.push("/snap");
+            this.$router.push("/input");
         }
     }
 }
@@ -88,7 +88,7 @@ export default {
 .intro ul{
     padding-left: 0;
     border: 3px solid rgb(83, 81, 81);
-    margin: 30px 60px;
+    margin: 30px 50px;
     border-radius: 20px;
 }
 .intro li{
