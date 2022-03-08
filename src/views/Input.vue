@@ -24,7 +24,6 @@ export default {
     },
     methods:{
         onOff(value){
-            console.log(value)
             if(value === "on"){
                 this.resultHidden = "";
             }else if(value === "off"){
