@@ -55,7 +55,7 @@ export default {
             time:"",
             year:"",
             month:"",
-            pushData:{day:"",time:"",meals:[]},
+            pushData:{day:"",month:"",time:"",meals:[]},
             components:[{com:'input-area'}],
             componentId:0,
             pushDbAfter:false,
@@ -79,6 +79,7 @@ export default {
             this.year = String(d.getFullYear());
             this.month = String(d.getMonth()+1)+String(Date.now());//idのこと
             this.pushData.meals = this.$store.state.meals;
+            this.pushData.month = String(d.getMonth()+1);
             const dataRef = doc(db, this.year, this.month) ;
             try {
                 await setDoc(dataRef, this.pushData);
