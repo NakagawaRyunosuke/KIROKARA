@@ -1,6 +1,6 @@
 <template>
     <div class="form">
-        <h3>[カロリーを記録]</h3>
+        <h3>カロリーを記録</h3>
         <v-form>
             <v-select
                 :items="times"
@@ -132,15 +132,24 @@ export default {
 }
 .form h3{
     margin: 10px 0 30px 0;
+    border: 2px solid rgba(143, 135, 135, 0.8);
+    border-radius: 10px;
+    text-align: center;
+    width: 200px;
+    
 }
 .addBtn{
     text-align: center;
     margin: 0 auto;
-    border: 3px solid black;
-    border-radius: 5px;
+    border: 3px solid rgba(143, 135, 135, 0.8);
+    border-radius: 50%;
     width: 50px;
     height: 50px;
-    box-shadow: 1px -1px black;
+    box-shadow: 2px -1px rgba(143, 135, 135, 0.8);
+}
+.addBtn:active{
+    box-shadow: none;
+    border: none;
 }
 .addBtn h2{
     padding: 5px 0;

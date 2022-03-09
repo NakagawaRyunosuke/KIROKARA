@@ -1,6 +1,6 @@
 <template>
     <div class="inputForm">
-        <div class="clearBtn" @click="clear"><h3>C</h3></div>
+        <div class="clearBtn" @click="clear"><h3>Clear</h3></div>
         <v-select
             :items="genres"
             label="ジャンル"
@@ -86,7 +86,7 @@ export default {
         },
         clear(){
             setTimeout(() => {
-                this.$store.state.meals[this.componentId] = {};
+                this.$store.state.meals[this.componentId] = "NODATA";
                 this.$emit("btnOn",false);
             }, 1000);
             this.genre = "";
@@ -125,14 +125,17 @@ export default {
     margin: 5px 0;
 }
 .clearBtn{
-    background-color: rgba(143, 135, 135, 0.466);
-    width: 30px;
+    width: 100px;
     height: 30px;
     text-align: center;
-    border: 2px solid rgba(0, 0, 0, 0.425);
-    border-radius: 30%;
+    border: 2px solid rgba(143, 135, 135, 0.8);
+    border-radius: 30px;
     padding: 0 0;
-    margin-left: 90%;
+    box-shadow: 2px -1px rgba(143, 135, 135, 0.8);
+}
+.clearBtn:active{
+    box-shadow: none;
+    border: none;
 }
 
 </style>
