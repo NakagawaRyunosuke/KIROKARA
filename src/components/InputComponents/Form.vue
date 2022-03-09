@@ -87,7 +87,7 @@ export default {
                 this.time = "";
                 this.components = [{com:'input-area'}];
                 this.$store.state.meals = [];
-                this.pushData = {day:"",time:"",meals:[]};
+                this.pushData = {day:"",month:"",time:"",meals:[]};
                 this.disabled = true;
                 this.otherCheck = true;
                 this.loading = false;
