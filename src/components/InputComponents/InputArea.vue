@@ -85,10 +85,16 @@ export default {
             });
         },
         clear(){
+            const dataCheck = (currentdata) => currentdata.genre === "NODATA";
             setTimeout(() => {
-                this.$store.state.meals[this.componentId] = "NODATA";
-                this.$emit("btnOn",false);
+                this.$store.state.meals[this.componentId] = {genre:"NODATA"};
+                if(this.$store.state.meals.every(dataCheck)){
+                     this.$emit("btnOn",true);
+                }else{
+                    this.$emit("btnOn",false);
+                }
             }, 1000);
+            
             this.genre = "";
             this.name = "";
             this.cal = "";

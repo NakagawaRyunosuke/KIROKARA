@@ -1,6 +1,6 @@
 <template>
     <div class="main">
-        <h4>記録が完了しました。</h4>
+        <h4>記録が完了しました</h4>
     </div>
 </template>
 
@@ -14,15 +14,24 @@
     top:0%;
     right:0%;
     background-color: rgba(0, 0, 0, 0.5);
-    height: 100%;
-    width: 100%;
-    text-align: center;
+    width:100%;
+    height:100%;
 }
 .main h4{
-    margin: 40% 30%;
-    border: 3px solid #ffcc80c0;
-    border-radius: 10px;
-    background-color: rgb(255, 255, 255);
+    position: absolute;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    width:200px;
+    height:100px;
+    margin: auto;
+    border: 3px solid #ffcc8050;
+    border-radius:50px;
+    background-color: rgba(255, 255, 255, 0.274);
+    text-align: center;
+    line-height: 100px;
+    color: #0a0501ea;
 }
 
 @keyframes fadeInAnime{

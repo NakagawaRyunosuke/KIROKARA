@@ -103,6 +103,7 @@ export default {
         addComponent(){
             if(this.time.length > 0 && this.disabled === false){
                 this.components.push({com:'input-area'});
+                this.disabled = true;
             }
 
         },
@@ -131,7 +132,7 @@ export default {
     padding: 10px 5%;
 }
 .form h3{
-    margin: 10px 0 30px 0;
+    margin: 20px auto;
     border: 2px solid rgba(143, 135, 135, 0.8);
     border-radius: 10px;
     text-align: center;
