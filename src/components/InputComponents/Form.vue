@@ -118,9 +118,6 @@ export default {
             return flag;
         },
     },
-    mounted(){
-        this.$store.state.meals = [];
-    }
 }
 </script>
 

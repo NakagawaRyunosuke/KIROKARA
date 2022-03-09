@@ -1,7 +1,7 @@
 <template>
     <div>
         <Form @resultHiddenEvent="onOff"/>
-        <Result />
+        <Result :class="resultHidden"/>
     </div>
 </template>
 
