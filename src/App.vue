@@ -55,7 +55,8 @@ export default {
   name: 'App',
 
   data: () => ({
-    drawer:null,
+    drawer:null,//ハンバーガメニューアイコンが押されたかどうか
+    //navBerの中身
     items:[
       {icon:"mdi-home",title:"HOME",to:"/"},
       {icon:"mdi-lead-pencil",title:"カロリーを記録",to:"/input"},
@@ -64,6 +65,7 @@ export default {
     ],
   }),
   methods:{
+    //ヘッダーのKIROKAROが押されたらホームに遷移
     moveHome(){
       this.$router.push("/");
     }

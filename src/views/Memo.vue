@@ -1,3 +1,74 @@
 <template>
-    <h1>Memo.vue</h1>
+    <div>
+        <SearchBtn class="searchBtn" :iconValue="iconValue" @showForm="formHidden=$event"/>
+        <Search :class="formHidden" class="search" @showList="showList" @loading="loading" @formHidden="formHidden='hidden'" @iconValue="iconValueChange"/>
+        <List :yAndm="yAndm" :checkShowList="checkShowList" :loading="loadingFlag" @resetFlags="resetFlags"/>
+        
+    </div>
 </template>
+
+<script>
+import SearchBtn from "@/components/MemoComponents/SearchBtn.vue"
+import Search from "@/components/MemoComponents/Search.vue"
+import List from "@/components/MemoComponents/List.vue"
+export default {
+    components:{
+        SearchBtn,
+        Search,
+        List,
+        
+    },
+    data(){
+        return{
+            formHidden:"hidden",
+            yAndm:{year:"",month:""},
+            checkShowList:false,
+            loadingFlag:false,
+            iconValue:""
+        }
+    },
+    methods:{
+        iconValueChange(){
+            setTimeout(() => {
+                this.iconValue = "mdi-magnify";
+            }, 1000);
+            this.iconValue = " ";
+        },
+        resetFlags(){
+          this.loadingFlag = false;
+          this.checkShowList = false;  
+        },
+        showList(value){
+            this.yAndm.year = value.year;
+            this.yAndm.month = value.month;
+            this.checkShowList = true;
+        },
+        loading(value){
+            this.loadingFlag = value;
+        }
+    }
+}
+</script>
+
+<style scoped>
+.searchBtn{
+    position: absolute;
+    top:20px;
+    left:0;
+    z-index: 2;
+}
+.hidden{
+    display: none;
+}
+.search{
+    position:absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 300px;
+    z-index: 1;
+}
+
+
+</style>

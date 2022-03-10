@@ -1,4 +1,5 @@
 <template>
+    <!-- DBへの登録処理が完了したら表示するコンポ―ネント -->
     <div class="main">
         <h4>記録が完了しました</h4>
     </div>
@@ -26,12 +27,12 @@
     width:200px;
     height:100px;
     margin: auto;
-    border: 3px solid #ffcc8050;
-    border-radius:50px;
-    background-color: rgba(255, 255, 255, 0.274);
+    border: 3px solid #fffefcc0;
+    background-color: #f7d8a934;
+    border-radius: 10px;
     text-align: center;
     line-height: 100px;
-    color: #0a0501ea;
+    color: rgb(36, 35, 35);
 }
 
 @keyframes fadeInAnime{

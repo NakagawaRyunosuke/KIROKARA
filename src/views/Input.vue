@@ -19,6 +19,7 @@ export default {
         }
     },
     methods:{
+        //Resultコンポーネントの表示/非表示の切り替え
         onOff(value){
             if(value === "on"){
                 this.resultHidden = "";

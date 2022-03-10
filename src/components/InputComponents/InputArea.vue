@@ -1,4 +1,5 @@
 <template>
+<!-- componentタグに追加するコンポーネント -->
     <div class="inputForm">
         <div class="clearBtn" @click="clear"><h3>Clear</h3></div>
         <v-select
@@ -27,9 +28,11 @@
 <script>
 export default {
     props:{
+        //現在いじられているコンポーネントの識別番号を受け取る
         componentId:{
             type:Number
         },
+        //記録ボタンが押され、フォームを初期化して良いかどうかの通知の受け皿
         pushDbAfter:{
             type:Boolean
         }
@@ -43,19 +46,18 @@ export default {
             chinese:[{title:"ラーメン",cal:"443"},{title:"その他"}],
             sarada:[{title:"普通のサラダ",cal:"21"},{title:"その他"}],
             dd:[{title:"コーヒー",cal:"7"},{title:"その他"}],
-            names:[],
-            otherCheck:true,
-            checkText:false,
+            names:[],//genreから選ばれたメニューが入る
             name:"",
             genre:"",
             cal:"",
-            clean:false,
+            otherCheck:true,
             rules: {
-                typeCheck: value => !isNaN(Number(value))  || '半角数字のみで大丈夫です',
+                typeCheck: value => !isNaN(Number(value))  || '半角数字のみで大丈夫です',//その他選択時のcal欄の記入ルール
             },
         }
     },
     methods:{
+        //genreによってその次のセレクトボックスの選択肢を変える
         changeGenre(){
             this.cal = "";
             if(this.genre === "基本メニュー"){
@@ -72,6 +74,7 @@ export default {
                 this.names = this.dd;
             }
         },
+        //その他が選ばれた時、自分でカロリーを入力できるようにする
         showCal(){
             this.otherCheck = true;
             this.names.forEach((item,index)=>{
@@ -84,11 +87,13 @@ export default {
                 }
             });
         },
+        //フォームの入力欄のリセット
         clear(){
             const dataCheck = (currentdata) => currentdata.genre === "NODATA";
+            //clearボタンが押された時、そのコンポーネントの識別番号を取得する前にclear()が動いてしまうのを防ぐため一秒遅らせている（もっといい方法があるはず...）
             setTimeout(() => {
-                this.$store.state.meals[this.componentId] = {genre:"NODATA"};
-                if(this.$store.state.meals.every(dataCheck)){
+                this.$store.state.meals[this.componentId] = {genre:"NODATA"};//storeのもともと登録されていた場所を空にしないために"NODATA"を挿入
+                if(this.$store.state.meals.every(dataCheck)){ //全ての要素が"NODATA"ならば記録ボタンは作動しない
                      this.$emit("btnOn",true);
                 }else{
                     this.$emit("btnOn",false);
@@ -101,16 +106,19 @@ export default {
         }
     },
     watch:{
+        //genreだけで登録されるのを防ぐ
         genre:function(){
             this.$emit("btnOn",true);
         },
+        //フォームがの入力欄を全て満たしているかチェック
         cal:function(){        
             if(((this.cal.length > 0) && !isNaN(Number(this.cal)))){
                 this.$store.state.meals[this.componentId] = {genre:this.genre,name:this.name,cal:this.cal};
+                //親コンポーネントのボタンをアクティブに
                 this.$emit("btnOn",false);
             }else{return this.$emit("btnOn",true);}
         },
-
+        //親の記録ボタンが押されたら各データの初期化
         pushDbAfter:function(){
             if(this.pushDbAfter === true){
                 this.name = "";

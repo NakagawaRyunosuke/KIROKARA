@@ -8,7 +8,7 @@
                 v-model="time"
             ></v-select>
 
-         
+            <!-- componentタグで配列に追加されたコンポーネントを逐次表示 -->
             <component :pushDbAfter="pushDbAfter" :componentId="componentId" v-for="(component,index) in components" :key="index" :is="component.com" @allClearOK="changePushDbAfter" @btnOn="btnChange" @click.native="selectMe(index)"></component>
 
             <div class="addBtn" @click="addComponent"><h2>+</h2></div>
@@ -33,7 +33,7 @@ import { getFirestore } from "firebase/firestore"
 import { setDoc, doc } from "firebase/firestore"
 import inputArea from "./InputArea.vue"
 
-
+//FireStoreとの連携
 initializeApp({
   apikey:process.env.VUE_APP_APIKEY,
   authDomain:process.env.VUE_APP_AUTHDOMAIN,
@@ -49,41 +49,47 @@ export default {
     data(){
         return{
             times:["朝ごはん","昼ごはん","おやつ","夜ごはん","夜食","その他"],
-            disabled:true,
-            otherCheck:true,
-            loading:false,
+            disabled:true,//記録ボタンを押してよいか判断する変数
+            otherCheck:true,//その他が入力された時にカロリー入力欄のdisabledを解除する変数
+            loading:false,//ボタンのローディングを開始・停止する変数
             time:"",
             year:"",
             month:"",
-            pushData:{day:"",month:"",time:"",meals:[]},
-            components:[{com:'input-area'}],
+            pushData:{day:"",month:"",time:"",meals:[]},//DBに保存するデータのひな形
+            components:[{com:'input-area'}],//componentタグを使うときはケバブケースでコンポーネント名を記入
             componentId:0,
             pushDbAfter:false,
         }
     },
     methods:{
+        //記録ボタンが押されたことを子コンポーネントに通知する
         changePushDbAfter(){
             this.pushDbAfter = false;
         },
+        //コンポーネントが触られた時にそのコンポーネントの識別番号を取得
         selectMe(id){
             this.componentId = id;
         },
+        //ボタンが押せるか押せないかの判定
         btnChange(value){
             this.disabled = value;
         },
+        //DBにデータを送信する
         async pushDb(){
             this.loading = true;
             this.pushData.time = this.time;
             const d = new Date();
-            this.pushData.day = String(d.getDate());
-            this.year = String(d.getFullYear());
-            this.month = String(d.getMonth()+1)+String(Date.now());//idのこと
+            this.pushData.day = String(d.getDate())+"日";
+            this.year = String(d.getFullYear())+"年";
+            this.month = String(d.getMonth()+1)+String(Date.now());//docId
             this.pushData.meals = this.$store.state.meals;
-            this.pushData.month = String(d.getMonth()+1);
+            this.pushData.month = String(d.getMonth()+1)+"月";
             const dataRef = doc(db, this.year, this.month) ;
             try {
                 await setDoc(dataRef, this.pushData);
+                //完了通知コンポーネントを表示させる
                 this.$emit("resultHiddenEvent","on");
+                //各データの初期化
                 this.time = "";
                 this.components = [{com:'input-area'}];
                 this.$store.state.meals = [];
@@ -93,6 +99,7 @@ export default {
                 this.loading = false;
                 this.pushDbAfter = true;
                 setTimeout(()=>{
+                    //三秒後間完了通知コンポーネントの表示
                     this.$emit("resultHiddenEvent","off");
                 },3000);
             } catch (e) {
@@ -101,7 +108,9 @@ export default {
             }
             this.loading = false;
         },
+        //入力フォームの追加
         addComponent(){
+            //フォームが埋まっていない次のフォームを追加できない
             if(this.time.length > 0 && this.disabled === false){
                 this.components.push({com:'input-area'});
                 this.disabled = true;
@@ -110,6 +119,7 @@ export default {
         },
     },
     computed:{
+        //記録ボタンを押してよいか最終的な判断
         disabledCheck(){
             let flag = true;
             if((this.time.length > 0 && this.disabled === false)){
@@ -124,7 +134,7 @@ export default {
 <style scoped>
 .form{
     background-color: white;
-    border: 3px solid #ffcc80c0;
+    border: 3px solid gray;
     margin: 50px 12%;
     height: auto;
     padding: 10px 5%;
