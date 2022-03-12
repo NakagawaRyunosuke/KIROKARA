@@ -116,4 +116,7 @@ export default {
 p:hover{
     color: orange;
 }
+.loginBtn{
+    margin-left: 10px;
+}
 </style>
