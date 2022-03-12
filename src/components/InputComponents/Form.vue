@@ -30,7 +30,7 @@
 <script>
 import { initializeApp } from "firebase/app"
 import { getFirestore } from "firebase/firestore"
-import { setDoc, doc } from "firebase/firestore"
+import { setDoc, doc, collection } from "firebase/firestore"
 import inputArea from "./InputArea.vue"
 
 //FireStoreとの連携
@@ -81,12 +81,12 @@ export default {
             const d = new Date();
             this.pushData.day = String(d.getDate())+"日";
             this.year = String(d.getFullYear())+"年";
-            this.month = String(d.getMonth()+1)+String(Date.now());//docId
             this.pushData.meals = this.$store.state.meals;
             this.pushData.month = String(d.getMonth()+1)+"月";
-            const dataRef = doc(db, this.year, this.month) ;
+            const userRef = collection(db, "users", this.$store.state.nowUserPass, this.$store.state.nowUserName, "Data", this.year);
             try {
-                await setDoc(dataRef, this.pushData);
+                await setDoc(doc(userRef),this.pushData);
+
                 //完了通知コンポーネントを表示させる
                 this.$emit("resultHiddenEvent","on");
                 //各データの初期化

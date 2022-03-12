@@ -15,7 +15,8 @@ export default {
     },
     data(){
         return{
-            resultHidden:"hidden"
+            resultHidden:"hidden",
+            currentPath:"/input"
         }
     },
     methods:{
@@ -26,6 +27,11 @@ export default {
             }else if(value === "off"){
                 this.resultHidden = "hidden";
             }
+        }
+    },
+    mounted(){
+        if(this.$store.state.login === false){
+            this.$router.push("/");
         }
     }
 }

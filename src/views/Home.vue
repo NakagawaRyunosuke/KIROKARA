@@ -28,6 +28,11 @@ export default {
         start(){
             this.$router.push("/input");
         }
+    },
+    mounted(){
+        if(this.$store.state.login === false){
+            this.$router.push("/login");
+        }
     }
 }
 </script>

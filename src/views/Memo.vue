@@ -24,7 +24,7 @@ export default {
             yAndm:{year:"",month:""},
             checkShowList:false,
             loadingFlag:false,
-            iconValue:""
+            iconValue:"",
         }
     },
     methods:{
@@ -45,6 +45,11 @@ export default {
         },
         loading(value){
             this.loadingFlag = value;
+        }
+    },
+    mounted(){
+        if(this.$store.state.login === false){
+            this.$router.push("/");
         }
     }
 }

@@ -5,7 +5,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    meals:[]
+    meals:[],
+    login:false,
+    nowUserName:"",
+    nowUserPass:""
   },
   mutations: {
   },

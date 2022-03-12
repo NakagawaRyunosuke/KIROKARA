@@ -9,7 +9,8 @@
       <v-list-item class="orange lighten-3">
         <v-list-item-content>
           <v-list-item-title class="text-h6">
-            MENU
+            <v-icon class="d-inline">mdi-account-circle</v-icon>
+            <h5 style="display:inline; margin-left:5px;">{{ this.$store.state.nowUserName }}</h5>
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
@@ -61,7 +62,8 @@ export default {
       {icon:"mdi-home",title:"HOME",to:"/"},
       {icon:"mdi-lead-pencil",title:"カロリーを記録",to:"/input"},
       {icon:"mdi-book-outline",title:"今までのカロリー",to:"/memo"},
-      {icon:"mdi-chart-line",title:"今月の推移",to:"/chart"}
+      {icon:"mdi-chart-line",title:"今月の推移",to:"/chart"},
+      {icon:"mdi-exit-to-app",title:"ログアウト",to:"/login"}
     ],
   }),
   methods:{

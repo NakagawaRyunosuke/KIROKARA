@@ -48,7 +48,7 @@ export default {
     data(){
         return{
             lists:[],
-            loadStart:"hidden"
+            loadStart:"hidden",
         }
     },
     watch:{
@@ -66,7 +66,7 @@ export default {
                 let year = this.yAndm.year;
                 let month = this.yAndm.month;
                 const dataCheck = (currentdata) => currentdata.genre !== "NODATA";
-                const q = query(collection(db, year), where("month", "==", month));
+                const q = query(collection(db, "users", this.$store.state.nowUserPass, this.$store.state.nowUserName, "Data", year), where("month", "==", month));
 
                 const querySnapshot = await getDocs(q);
                 querySnapshot.forEach((doc) => {
@@ -99,7 +99,7 @@ export default {
         const nowYear = String(d.getFullYear())+"年";
         this.yAndm.year = nowYear;
         this.yAndm.month = nowMonth;
-        const q = query(collection(db, nowYear), where("month", "==", nowMonth));
+        const q = query(collection(db, "users", this.$store.state.nowUserPass, this.$store.state.nowUserName, "Data", nowYear), where("month", "==", nowMonth));
 
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
