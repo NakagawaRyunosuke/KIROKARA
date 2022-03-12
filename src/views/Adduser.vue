@@ -100,7 +100,7 @@ const db = getFirestore();
 
 <style scoped>
 .adduserForm{
-    margin: 50px 100px;
+    margin: 50px 60px;
     padding: 30px 30px;
     background-color: white;
     border: 3px solid #ffcc80be;
