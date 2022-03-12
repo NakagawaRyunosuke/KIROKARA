@@ -68,10 +68,12 @@ export default {
       loading:false,
     }),
     methods: {
+        //ログイン処理
       async validate () {
         this.$refs.form.validate();
         if(this.name.length > 0 && this.password.length > 0){
             this.loading = true;
+            //firestoreにユーザーのサブコレクションが存在しているかで判定
             const userRef = collection(db, "users", this.password, this.name);
             const snapShot = await getDocs(userRef);
             if(snapShot.empty === false){
@@ -89,10 +91,12 @@ export default {
             }
         }
       },
+      //ユーザー登録ページへ遷移
       addUser(){
           this.$router.push("/adduser");
       }
     },
+    //現在のユーザーの初期化
     mounted(){
         this.$store.state.nowUserName = "";
         this.$store.state.nowUserPass = "";

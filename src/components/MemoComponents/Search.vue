@@ -33,6 +33,7 @@ export default {
         }
     },
     methods:{
+        //様々なイベント発火
         showList(){
             this.$emit("showList",this.yAndm);
             this.$emit("loading",true);
@@ -41,6 +42,7 @@ export default {
         }
     },
     computed:{
+        //検索ボタンのdisabled判定
         disabledCheck(){
             let disabled = true;
             if(this.yAndm.year.length > 0 && this.yAndm.month.length > 0){

@@ -31,10 +31,13 @@ initializeApp({
 const db = getFirestore();
 
 export default {
+    
     props:{
+        //検索する年と月をもらう
         yAndm:{
             type:Object
         },
+        //各判定用の変数
         checkShowList:{
             type:Boolean
         },
@@ -52,6 +55,7 @@ export default {
         }
     },
     watch:{
+        //Loadingコンポーネントの出現判定
         loading:function(){
             if(this.loading === true){
                 this.loadStart = "";
@@ -59,6 +63,7 @@ export default {
                 this.loadStart = "hidden";
             }
         },
+        //リストの表示判定
         checkShowList:async function(){
             if(this.checkShowList === true){
                 this.lists = [];
@@ -91,6 +96,7 @@ export default {
             }
         },
     },
+    //マウント時、今年の今月のデータのリストを表示する
     async mounted(){
         const dataCheck = (currentdata) => currentdata.genre !== "NODATA";
         const d = new Date();

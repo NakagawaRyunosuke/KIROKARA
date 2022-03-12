@@ -41,6 +41,7 @@ export default {
             }
         }
     },
+    //firestoreから今月の一日ごとの合計カロリーを算出し、線グラフとして表示
     async mounted() {
         const d = new Date();
         const nowMonth = String(d.getMonth()+1)+"月";
@@ -52,6 +53,7 @@ export default {
             for(let i = 1; i <= 31; i++){
                 if((String(i)+"日") === item.data().day){
                     for(let j = 0; j < item.data().meals.length; j++){
+                        //もしデータが存在していたら、データ配列の対応するインデックスの要素に足す
                         if(item.data().meals[j].cal !== undefined){
                             this.chartData.datasets[0].data[i-1] += Number(item.data().meals[j].cal);
                         }

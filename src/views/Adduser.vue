@@ -67,6 +67,8 @@ const db = getFirestore();
       loading:false,
     }),
     methods: {
+      //ユーザー作成処理
+      //ユーザーの名前とパスワードでサブコレクションを作成
       async validate () {
         this.$refs.form.validate();
         if(this.name.length > 0 && this.password.length > 0){

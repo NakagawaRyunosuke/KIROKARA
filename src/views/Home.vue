@@ -15,6 +15,7 @@
                 <li><v-icon>mdi-chart-line</v-icon>一か月間のカロリーの推移をグラフで確認</li>
             </ul>
         </div>
+        <p>カロリー参考:<span><a href="https://www.tanita.co.jp/content/calorism/table/index2.html" target="_blank" rel="noopener noreferrer">摂取カロリー早見表</a></span></p>
 
         <div class="startBtn" @click="start">
             <h4>今すぐ始める</h4>

@@ -28,6 +28,7 @@ export default {
         }
     },
     methods:{
+        //ボタンが押された時に検索フォームを出現させる
         showForm(){
             if(this.icon === "X"){
                 this.icon = "mdi-magnify";
@@ -39,8 +40,10 @@ export default {
         }
     },
     watch:{
+        //検索アイコンと×アイコンの切り替え
         iconValue:function(){
             this.load = true;
+            //ボタンのアイコンが検索マークに戻るまでローディングでごまかす
             setTimeout(() => {
                 this.load = false;
             }, 1000);

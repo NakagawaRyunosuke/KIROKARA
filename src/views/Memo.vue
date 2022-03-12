@@ -28,25 +28,31 @@ export default {
         }
     },
     methods:{
+        //検索マークがをされた時に×マークに変更する、逆もまたしかり
         iconValueChange(){
+            //Searchコンポーネントのwatchで検出されるためにわざと空白を代入して一秒後に検索アイコンに戻す(力技)
             setTimeout(() => {
                 this.iconValue = "mdi-magnify";
             }, 1000);
             this.iconValue = " ";
         },
+        //各判定をリセット
         resetFlags(){
           this.loadingFlag = false;
           this.checkShowList = false;  
         },
+        //検索をかける日付を子コンポーネントに渡し、OKサインを出す
         showList(value){
             this.yAndm.year = value.year;
             this.yAndm.month = value.month;
             this.checkShowList = true;
         },
+        //Loadingコンポーネントの出現制御
         loading(value){
             this.loadingFlag = value;
         }
     },
+    //ログインされていないとログイン画面に飛ばす
     mounted(){
         if(this.$store.state.login === false){
             this.$router.push("/");
