@@ -39,6 +39,7 @@ export default {
             }
         }
     },
+   
     //firestoreから今月の一日ごとの合計カロリーを算出し、線グラフとして表示
     async mounted() {
         const d = new Date();

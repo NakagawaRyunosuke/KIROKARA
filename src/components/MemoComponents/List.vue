@@ -143,7 +143,7 @@ export default {
     display: none;
 }
 .listItem{
-    margin: 20px 60px;
+    margin: 20px 20px;
     border: 2px solid rgba(220, 166, 0, 0.6);
     background-color: rgba(243, 196, 102, 0.651);
     border-radius: 10px;
