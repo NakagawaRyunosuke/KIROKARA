@@ -20,7 +20,7 @@
 <script>
 import { initializeApp } from "firebase/app"
 import { getFirestore } from "firebase/firestore"
-import { collection, query, where, getDocs, doc, deleteDoc } from "firebase/firestore"
+import { collection, query, where, getDocs, doc, deleteDoc, orderBy } from "firebase/firestore"
 import Loading from "@/components/Loading.vue"
 
 //FireStoreとの連携
@@ -99,6 +99,7 @@ export default {
         },
     },
     methods:{
+        //削除
         async deleteMe(id,index){
             await deleteDoc(doc(db, "users", this.$store.state.nowUserPass, this.$store.state.nowUserName, "Data", this.yAndm.year, id));
             this.lists.splice(index,1);
@@ -113,9 +114,10 @@ export default {
         const nowYear = String(d.getFullYear())+"年";
         this.yAndm.year = nowYear;
         this.yAndm.month = nowMonth;
-        const q = query(collection(db, "users", this.$store.state.nowUserPass, this.$store.state.nowUserName, "Data", nowYear), where("month", "==", nowMonth));
+        const q = query(collection(db, "users", this.$store.state.nowUserPass, this.$store.state.nowUserName, "Data", nowYear), where("month", "==", nowMonth), orderBy("day"));
 
         const querySnapshot = await getDocs(q);
+
         querySnapshot.forEach((doc) => {
             if(doc.data().meals.every(dataCheck)){
                 this.lists.push({id:doc.id,data:doc.data()});
@@ -128,11 +130,14 @@ export default {
                 });
                 this.lists.push({id:doc.id,data:array});
             }
+
         });
         if(this.lists.length <= 0){
             alert("該当データが存在しません");
             
         }
+        
+        this.lists = this.lists.filter(Boolean);
         this.$emit("resetFlags",false);
     }
 }

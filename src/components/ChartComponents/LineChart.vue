@@ -35,7 +35,14 @@ export default {
                 legend: {
                     display: false
                 },
-                
+                scales:{
+                    yAxes:[{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'kcal',
+                        },
+                    }]
+                }
             }
         }
     },
@@ -49,8 +56,9 @@ export default {
         const querySnapshot = await getDocs(q);
 
         querySnapshot.forEach((item)=>{
+            let date = parseInt(item.data().day.replace("日",""),10);
             for(let i = 1; i <= 31; i++){
-                if((String(i)+"日") === item.data().day){
+                if((String(i)+"日") === (String(date)+"日")){
                     for(let j = 0; j < item.data().meals.length; j++){
                         //もしデータが存在していたら、データ配列の対応するインデックスの要素に足す
                         if(item.data().meals[j].cal !== undefined){

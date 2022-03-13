@@ -65,7 +65,7 @@ export default {
             components:[{com:'input-area'}],//componentタグを使うときはケバブケースでコンポーネント名を記入
             componentId:0,
             pushDbAfter:false,
-            date:"2022-03-13"
+            date:""
         }
     },
     methods:{
@@ -85,7 +85,6 @@ export default {
         async pushDb(){
             const dateArray = this.date.split("-");
             dateArray[1] = parseInt(dateArray[1],10); 
-            dateArray[2] = parseInt(dateArray[2],10);
             this.loading = true;
             this.pushData.time = this.time;
             this.pushData.day = String(dateArray[2])+"日";
@@ -137,6 +136,23 @@ export default {
             return flag;
         },
     },
+    mounted(){
+        let month = "";
+        let date = "";
+        const d = new Date();
+        if(String(d.getMonth()+1).length <= 1){
+            month = "0"+String(d.getMonth()+1);
+        }else{
+            month = String(d.getMonth()+1);
+        }
+        if(String(d.getDate()).length <= 1){
+            date = "0"+String(d.getDate());
+        }else{
+            date = String(d.getDate());
+        }
+        this.date = String(d.getFullYear())+"-"+month+"-"+date;
+        console.log(this.date)
+    }
 }
 </script>
 
