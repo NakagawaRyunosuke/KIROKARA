@@ -31,7 +31,8 @@ export default {
 
 <style>
 .chart {
-    width: max-content;
+    min-width: 250px;
+    max-width: max-content;
     height: max-content;
     margin: 0 auto;
 }
