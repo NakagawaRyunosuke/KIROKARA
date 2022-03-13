@@ -1,5 +1,5 @@
 <template>
-    <div class="inputDate">
+    <div class="inputDate" style="position:fixed;">
         <v-select
           :items="years"
           label="何年？"

@@ -1,15 +1,17 @@
 <template>
     <div class="listArea">
         <div class="dateText"><h3>{{ yAndm.year}}{{ yAndm.month }}</h3></div>
-        <div v-for="(list,index) in lists" :key="index" class="listItem">
-            <h3>{{ list.text }}</h3>
-            <div class="day"><h3>{{ list.day }}</h3></div>
-            <div><h4>{{ list.time }}</h4></div>
+        <div v-for="(list, index) in lists" :key="list.id" class="listItem">
+            <div class="day" style="padding:10px 0;">
+                <h3>{{ list.data.day }}</h3>
+            </div>
+            <div><h4>{{ list.data.time }}</h4></div>
             <ul>
-                <li v-for="(meal,index) in list.meals" :key="index">
+                <li v-for="(meal,index) in list.data.meals" :key="index">
                 {{ meal.genre }}:{{ meal.name }}/{{ meal.cal+"kcal" }}
                 </li>
             </ul>
+            <v-icon @click="deleteMe(list.id,index)" style="margin-top:10px;">mdi-delete</v-icon>
         </div>
         <Loading :class="loadStart"/>
     </div>
@@ -18,7 +20,7 @@
 <script>
 import { initializeApp } from "firebase/app"
 import { getFirestore } from "firebase/firestore"
-import { collection, query, where, getDocs } from "firebase/firestore"
+import { collection, query, where, getDocs, doc, deleteDoc } from "firebase/firestore"
 import Loading from "@/components/Loading.vue"
 
 //FireStoreとの連携
@@ -76,7 +78,7 @@ export default {
                 const querySnapshot = await getDocs(q);
                 querySnapshot.forEach((doc) => {
                     if(doc.data().meals.every(dataCheck)){
-                        this.lists.push(doc.data());
+                        this.lists.push({id:doc.id,data:doc.data()});
                     }else{
                         doc.data().meals.forEach((meal,index)=>{
                             if(meal.genre === "NODATA"){
@@ -85,16 +87,22 @@ export default {
                                 console.log(array)
                             }
                         });
-                        this.lists.push(array);
+                        this.lists.push({id:doc.id,data:array});
                     }
                 });
                 if(this.lists.length <= 0){
-                    this.lists.push({text:"該当データが存在しません。"});
+                    alert("該当データが存在しません");
                 }
                 
                 this.$emit("resetFlags",false);
             }
         },
+    },
+    methods:{
+        async deleteMe(id,index){
+            await deleteDoc(doc(db, "users", this.$store.state.nowUserPass, this.$store.state.nowUserName, "Data", this.yAndm.year, id));
+            this.lists.splice(index,1);
+        }
     },
     //マウント時、今年の今月のデータのリストを表示する
     async mounted(){
@@ -110,7 +118,7 @@ export default {
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             if(doc.data().meals.every(dataCheck)){
-                this.lists.push(doc.data());
+                this.lists.push({id:doc.id,data:doc.data()});
             }else{
                 doc.data().meals.forEach((meal,index)=>{
                     if(meal.genre === "NODATA"){
@@ -118,12 +126,14 @@ export default {
                         array.meals.splice(index,1);
                     }
                 });
-                this.lists.push(array);
+                this.lists.push({id:doc.id,data:array});
             }
         });
         if(this.lists.length <= 0){
-            this.lists.push({text:"該当データが存在しません。"});
+            alert("該当データが存在しません");
+            
         }
+        this.$emit("resetFlags",false);
     }
 }
 </script>
@@ -142,13 +152,12 @@ export default {
 }
 .listArea{
     padding: 40px 0;
-    margin: 50px 40px;
+    margin: 30px 40px;
     background-color: rgba(255, 255, 255, 0.877);
     border: 2px solid gray;
     border-radius: 20px;
 }
 .dateText{
     padding-left: 10px;
-    
 }
 </style>

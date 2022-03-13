@@ -2,6 +2,12 @@
     <div class="form">
         <h3>カロリーを記録</h3>
         <v-form>
+            <div>
+                <p style="display:inline;">食べた日付:</p>
+                <input type="date" v-model="date">
+            </div>
+
+
             <v-select
                 :items="times"
                 label="食べた時間帯を選択"
@@ -59,6 +65,7 @@ export default {
             components:[{com:'input-area'}],//componentタグを使うときはケバブケースでコンポーネント名を記入
             componentId:0,
             pushDbAfter:false,
+            date:"2022-03-13"
         }
     },
     methods:{
@@ -76,13 +83,15 @@ export default {
         },
         //DBにデータを送信する
         async pushDb(){
+            const dateArray = this.date.split("-");
+            dateArray[1] = parseInt(dateArray[1],10); 
+            dateArray[2] = parseInt(dateArray[2],10);
             this.loading = true;
             this.pushData.time = this.time;
-            const d = new Date();
-            this.pushData.day = String(d.getDate())+"日";
-            this.year = String(d.getFullYear())+"年";
+            this.pushData.day = String(dateArray[2])+"日";
+            this.year = dateArray[0]+"年";
             this.pushData.meals = this.$store.state.meals;
-            this.pushData.month = String(d.getMonth()+1)+"月";
+            this.pushData.month = String(dateArray[1])+"月";
             const userRef = collection(db, "users", this.$store.state.nowUserPass, this.$store.state.nowUserName, "Data", this.year);
             try {
                 await setDoc(doc(userRef),this.pushData);
