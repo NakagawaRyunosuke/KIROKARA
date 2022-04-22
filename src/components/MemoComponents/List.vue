@@ -73,7 +73,7 @@ export default {
                 let year = this.yAndm.year;
                 let month = this.yAndm.month;
                 const dataCheck = (currentdata) => currentdata.genre !== "NODATA";
-                const q = query(collection(db, "users", this.$store.state.nowUserPass, this.$store.state.nowUserName, "Data", year), where("month", "==", month));
+                const q = query(collection(db, "users", this.$store.state.nowUserPass, this.$store.state.nowUserName, "Data", year), where("month", "==", month),orderBy("day"));
 
                 const querySnapshot = await getDocs(q);
                 querySnapshot.forEach((doc) => {
