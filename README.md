@@ -1,24 +1,9 @@
 # kirokaro
 
-## Project setup
-```
-npm install
-```
+## アプリの詳細
+- 食べたものを記録するだけでカロリーの自動計算とグラフによる可視化を行うWebアプリケーション
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## 作成した動機
+- Vue.jsの勉強をしていた事、そして何かWebアプリケーションを作成してみたかったという理由のため、そのアウトプットとして作成
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## ※現在はAzureのサブスクリプション期限切れのためアクセス不可能(;_;)
